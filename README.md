@@ -1,1 +1,1 @@
-# federated_fraud_detection
+# Federated Fraud Detection
