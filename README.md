@@ -8,7 +8,7 @@ This code implements the federated fraud detection model.
 
 * Unpack [example_dataset_5.tar.gz](https://github.com/GabrieleSantin/federated_fraud_detection/blob/main/data/example_dataset_5.tar.gz) in `data/`. This is an example dataset for a simulation with five nodes.
 * Run the script [demo.py](https://github.com/GabrieleSantin/federated_fraud_detection/blob/main/code/demo.py) in `code/`.  The demo does the following:
-  1. Load the configuration file [fully_connected.yaml](https://github.com/GabrieleSantin/federated_fraud_detection/blob/main/code/config/fully_connected.py) from `code/config/`. This configuration defines a fully connected network of five agents, some parameters for the learning algorithm, and a list of actions to be performed by each node. The actions are equal for each node for simplicity.
+  1. Load the configuration file [fully_connected.py](https://github.com/GabrieleSantin/federated_fraud_detection/blob/main/code/config/fully_connected.py) from `code/config/`. This configuration defines a fully connected network of five agents, some parameters for the learning algorithm, and a list of actions to be performed by each node. The actions are equal for each node for simplicity.
   2. Load the example dataset.
   3. Run the simulation.
   4. Compute some accuracy metrics and statistics, and visualize them.
