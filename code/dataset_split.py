@@ -35,6 +35,12 @@ n_agents = 5
 offset = 0.99 # degree of unbalanceness
 target_data_path = '../data/very_unbalanced_split_5/'
 
+# n_agents = 5
+# offset = 0.99 # degree of unbalanceness
+# target_data_path = '../data/example_dataset_5/'
+# pos_idx = pos_idx[:200]
+# neg_idx = neg_idx[:200000]
+
 
 #%% Define the names of the nodes
 ID = ['Node%d' % x for x in range(n_agents)]

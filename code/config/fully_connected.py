@@ -51,7 +51,7 @@ net_cfg['network'] = pd.DataFrame((np.ones((n_agents, n_agents)) -
 # Here you should define:
 
 data_cfg = {}
-data_cfg['data_path'] = '../data/very_unbalanced_split_5/'
+data_cfg['data_path'] = '../data/example_dataset_5/'
 data_cfg['label_col'] = 'class'
 data_cfg['unused_col'] = 'time'
 
