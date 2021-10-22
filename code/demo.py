@@ -6,6 +6,7 @@ from simulator import Simulator
 import numpy as np
 
 # How many steps of the algorithm you want to see in the plot
+show_plots = True
 max_steps_plot = 20
 
 
@@ -56,73 +57,75 @@ s.init_simulation(actions,
 estimators_ids, scores = s.simulate()
    
 
-#%% Plot the scoress
-n_agents = len(net_cfg['ID'])
-
-# Test scores
-metrics = ['test_bacc', 'test_precision', 'test_recall']
-fig = plt.figure(1)
-fig.clf()
-for idx, id in enumerate(net_cfg['ID']):
-    ax = fig.add_subplot(1, n_agents, idx+1)
-    leg = []
-    for metric in metrics:
-        values = []
-        x_label = []
-        for idx_t, t in enumerate(scores[id]):
-            if idx_t >= len(scores[id]) - max_steps_plot:
-                values.append(t[metric])
-                x_label.append(str(idx_t) + ': ' + actions[id][idx_t])
-        ax.plot(x_label, values, 'o-')
-        leg.append(metric)
-        ax.text(max_steps_plot - 0.5, values[-1], '%2.2f' % values[-1])
-    ax.legend(leg)
-    ax.grid(True)
-    ax.set_title(id)
-    plt.xticks(rotation=90)
-    ax.set_ylim(0, 1)
-    ax.set_xlim(-1, np.min([max_steps_plot, len(scores[id])]) + 1)
-fig.tight_layout()
-
-
-# Train scores
-metrics = ['train_bacc', 'train_precision', 'train_recall']
-fig = plt.figure(2)
-fig.clf()
-for idx, id in enumerate(net_cfg['ID']):
-    ax = fig.add_subplot(1, n_agents, idx+1)
-    leg = []
-    for metric in metrics:
-        values = []
-        x_label = []
-        for idx_t, t in enumerate(scores[id]):
-            if idx_t >= len(scores[id]) - max_steps_plot:
-                values.append(t[metric])
-                x_label.append(str(idx_t) + ': ' + actions[id][idx_t])
-        ax.plot(x_label, values, 'o-')
-        leg.append(metric)
-        ax.text(max_steps_plot - 0.5, values[-1], '%2.2f' % values[-1])
-    ax.legend(leg)
-    ax.grid(True)
-    ax.set_title(id)
-    plt.xticks(rotation=90)
-    ax.set_ylim(0, 1)
-    ax.set_xlim(-1, np.min([max_steps_plot, len(scores[id])]) + 1)
-fig.tight_layout()
+#%% Plot the scores
+if show_plots: 
+    n_agents = len(net_cfg['ID'])
+    
+    # Test scores
+    metrics = ['test_bacc', 'test_precision', 'test_recall']
+    fig = plt.figure(1)
+    fig.clf()
+    for idx, id in enumerate(net_cfg['ID']):
+        ax = fig.add_subplot(1, n_agents, idx+1)
+        leg = []
+        for metric in metrics:
+            values = []
+            x_label = []
+            for idx_t, t in enumerate(scores[id]):
+                if idx_t >= len(scores[id]) - max_steps_plot:
+                    values.append(t[metric])
+                    x_label.append(str(idx_t) + ': ' + actions[id][idx_t])
+            ax.plot(x_label, values, 'o-')
+            leg.append(metric)
+            ax.text(max_steps_plot - 0.5, values[-1], '%2.2f' % values[-1])
+        ax.legend(leg)
+        ax.grid(True)
+        ax.set_title(id)
+        plt.xticks(rotation=90)
+        ax.set_ylim(0, 1)
+        ax.set_xlim(-1, np.min([max_steps_plot, len(scores[id])]) + 1)
+    fig.tight_layout()
+    
+    
+    # Train scores
+    metrics = ['train_bacc', 'train_precision', 'train_recall']
+    fig = plt.figure(2)
+    fig.clf()
+    for idx, id in enumerate(net_cfg['ID']):
+        ax = fig.add_subplot(1, n_agents, idx+1)
+        leg = []
+        for metric in metrics:
+            values = []
+            x_label = []
+            for idx_t, t in enumerate(scores[id]):
+                if idx_t >= len(scores[id]) - max_steps_plot:
+                    values.append(t[metric])
+                    x_label.append(str(idx_t) + ': ' + actions[id][idx_t])
+            ax.plot(x_label, values, 'o-')
+            leg.append(metric)
+            ax.text(max_steps_plot - 0.5, values[-1], '%2.2f' % values[-1])
+        ax.legend(leg)
+        ax.grid(True)
+        ax.set_title(id)
+        plt.xticks(rotation=90)
+        ax.set_ylim(0, 1)
+        ax.set_xlim(-1, np.min([max_steps_plot, len(scores[id])]) + 1)
+    fig.tight_layout()
 
 
 #%% Plot the estimators count
 counts = count(estimators_ids, actions)
 
-fig = plt.figure(3)
-fig.clf()
-for idx, id in enumerate(net_cfg['ID']):
-    ax = fig.add_subplot(2, np.ceil(n_agents / 2), idx+1)
-    sns.barplot(data=counts[id][-max_steps_plot*n_agents:], 
-                x='iteration', y='count', hue='node', ax=ax)
-    ax.grid(True)
-    ax.set_title(id)
-    plt.xticks(rotation=90)
-fig.tight_layout()
-
+if show_plots:
+    fig = plt.figure(3)
+    fig.clf()
+    for idx, id in enumerate(net_cfg['ID']):
+        ax = fig.add_subplot(2, np.ceil(n_agents / 2), idx+1)
+        sns.barplot(data=counts[id][-max_steps_plot*n_agents:], 
+                    x='iteration', y='count', hue='node', ax=ax)
+        ax.grid(True)
+        ax.set_title(id)
+        plt.xticks(rotation=90)
+    fig.tight_layout()
+    
         
