@@ -11,9 +11,8 @@ max_steps_plot = 20
 
 
 #%% Import the experiment's configuration
-# from config.isolated_nodes import simulation_id, net_cfg, alg_cfg, data_cfg, actions
-# from config.loop import simulation_id, net_cfg, alg_cfg, data_cfg, actions
-from config.fully_connected import simulation_id, net_cfg, alg_cfg, data_cfg, actions
+from config.example import simulation_id, net_cfg, alg_cfg, data_cfg, actions
+print(20 * '-' + 'Running the simulation %s' % simulation_id + 20 * '-')
 
 
 #%% Load and define the agents' datasets

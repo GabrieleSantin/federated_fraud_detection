@@ -6,7 +6,7 @@ import numpy as np
 #%% Definition of the simulation name
 # Here you should define:
 #    simulation_id
-simulation_id = 'five_agents-very_unbalanced-fully_connected'
+simulation_id = 'five_agents-fully_connected-example_dataset'
 
 
 #%% Algorithm parameters
