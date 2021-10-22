@@ -5,6 +5,7 @@ import os.path as osp
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
+from collections import Counter
 
 
 #%%
@@ -19,7 +20,7 @@ def almost_equal_split(n_elements, n_agents, offset):
     return split_idx
 
 
-#%%
+#%% Load the data, set up a train/test split, fit a input scaler
 def get_data(data_path, data_file, unused_col, label_col, random_state, test_size):
     # Load data
     data = pd.read_csv(osp.join(data_path, data_file))
@@ -28,12 +29,14 @@ def get_data(data_path, data_file, unused_col, label_col, random_state, test_siz
     rename_pattern = {c: c.lower() for c in data.columns}
     data.rename(columns=rename_pattern, inplace=True)
     
-    # Drop unused
+    # Remove some columns if needed
     data.drop(columns=unused_col, inplace=True)
     
-    #
+    # Split the data in input / outpu
     X = data.drop(columns=label_col)
     y = data[[label_col]].values.ravel()
+    
+    # Split the data into train and test sets
     X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                         random_state=random_state,
                                                         test_size=test_size)
@@ -43,6 +46,22 @@ def get_data(data_path, data_file, unused_col, label_col, random_state, test_siz
     input_scaler.fit(X_train) 
     
     return X_train, X_test, y_test, y_train, input_scaler
+
+
+#%% 
+def merge_test_set(X_test, y_test):
+    X_test_tmp = pd.DataFrame()
+    y_test_tmp = np.empty((0,))
+    
+    for id in X_test:
+        X_test_tmp = X_test_tmp.append(X_test[id])    
+        y_test_tmp = np.r_[y_test_tmp, y_test[id]]    
+    
+    for id in X_test:
+        X_test[id] = X_test_tmp
+        y_test[id] = y_test_tmp
+
+    return X_test, y_test
 
 
 #%%
@@ -87,3 +106,23 @@ def get_scores(model, X_train, y_train, X_test, y_test, verbose=0):
     return scores
 
 
+#%%
+def count(estimators_ids, actions):
+    counts = {}
+
+    for id in estimators_ids:
+        tt = []
+        nn = []
+        cc = []
+        for idx, t in enumerate(estimators_ids[id]):
+            # breakpoint()
+            cnt = Counter([x[0] for x in t])
+            for node in estimators_ids:
+                tt.append(str(idx) + ':' + actions[id][idx])
+                nn.append(node)
+                if node in cnt:
+                    cc.append(cnt[node])
+                else:
+                    cc.append(0)
+        counts[id] = pd.DataFrame({'iteration': tt, 'node' : nn, 'count': cc})
+    return counts
