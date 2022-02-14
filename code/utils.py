@@ -6,6 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
 from collections import Counter
+import jsonpickle
+import jsonpickle.ext.numpy as jsonpickle_numpy
+import json
 
 
 #%%
@@ -126,3 +129,38 @@ def count(estimators_ids, actions):
                     cc.append(0)
         counts[id] = pd.DataFrame({'iteration': tt, 'node' : nn, 'count': cc})
     return counts
+
+
+
+#%% Define the write/read functions
+def write_json(estimator, ID, filename):
+    ''' Serialize estimator to json and write the result to filename. 
+    Not sure what to do with ID? We can either add it to the json dictionary, 
+    or encode it in the filename.
+    '''    
+
+    # Initialize the pickler
+    jsonpickle_numpy.register_handlers()
+    pickler = jsonpickle.pickler.Pickler()
+    
+    # Create ae json dictionary from the estimator
+    json_dict = pickler.flatten(estimator)
+    
+    # Write it to file
+    with open(filename + '.json', 'w') as file:
+        json.dump(json_dict, file, indent=2)
+
+
+def read_json(filename):
+    # Read the json dictionary from file
+    with open(filename + '.json', 'r') as file:
+        json_dict = json.load(file)
+
+    # Initialize the unpickler
+    jsonpickle_numpy.register_handlers()
+    unpickler = jsonpickle.unpickler.Unpickler()
+    
+    # Create an object from the json dictionary
+    estimator = unpickler.restore(json_dict)
+    
+    return estimator
